@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MovieManagement.Domain.Entities;
 using MovieManagement.Domain.Repositories.Interfaces;
 
 namespace MovieManagement.Api.Controllers
@@ -16,7 +17,7 @@ namespace MovieManagement.Api.Controllers
         [HttpGet]
         public ActionResult Get()
         {
-            var actorsFromRepo = _unitOfWork.Actor.GetAll().ToList();
+            var actorsFromRepo = _unitOfWork.Actor.GetAll();
             return Ok(actorsFromRepo);
         }
 
@@ -25,6 +26,16 @@ namespace MovieManagement.Api.Controllers
         {
             var actorsWithMoviesFromRepo = _unitOfWork.Actor.GetActorsWithMovies();
             return Ok(actorsWithMoviesFromRepo);
+        }
+        [HttpPost("add-actor")]
+        public ActionResult Add(Actor actor)
+        {
+            var result = _unitOfWork.Actor.Add(actor);
+            if (result is not null)
+            {
+                return Ok();
+            }
+            return BadRequest(result);
         }
 
 

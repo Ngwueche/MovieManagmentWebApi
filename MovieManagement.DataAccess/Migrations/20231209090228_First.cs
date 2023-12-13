@@ -13,6 +13,21 @@ namespace MovieManagement.DataAccess.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Actors",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Biography = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Actors", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Genre",
                 columns: table => new
                 {
@@ -23,26 +38,6 @@ namespace MovieManagement.DataAccess.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Genre", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Actors",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    BiographyId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Actors", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Actors_Genre_BiographyId",
-                        column: x => x.BiographyId,
-                        principalTable: "Genre",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -92,7 +87,7 @@ namespace MovieManagement.DataAccess.Migrations
 
             migrationBuilder.InsertData(
                 table: "Actors",
-                columns: new[] { "Id", "BiographyId", "FirstName", "LastName" },
+                columns: new[] { "Id", "Biography", "FirstName", "LastName" },
                 values: new object[,]
                 {
                     { 1, null, "Genevive", "Nnaji" },
@@ -109,11 +104,6 @@ namespace MovieManagement.DataAccess.Migrations
                     { 2, 2, "Naija Romance", "Love Me" },
                     { 3, 1, "Return of the Princess", "Wicked Maiden" }
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Actors_BiographyId",
-                table: "Actors",
-                column: "BiographyId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_GenreMovie_MoviesId",
@@ -133,13 +123,13 @@ namespace MovieManagement.DataAccess.Migrations
                 name: "GenreMovie");
 
             migrationBuilder.DropTable(
+                name: "Genre");
+
+            migrationBuilder.DropTable(
                 name: "Movies");
 
             migrationBuilder.DropTable(
                 name: "Actors");
-
-            migrationBuilder.DropTable(
-                name: "Genre");
         }
     }
 }

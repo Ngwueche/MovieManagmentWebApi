@@ -7,7 +7,7 @@ namespace MovieManagement.Domain.Repositories.Interfaces
         T GetById(int id);
         IEnumerable<T> GetAll();
         IEnumerable<T> Find(Expression<Func<T, bool>> predicate);
-        void Add(T entity);
+        T Add(T entity);
         void Remove(T entity);
         void AdddRange(IEnumerable<T> entities);
         void RemoveRange(IEnumerable<T> entities);

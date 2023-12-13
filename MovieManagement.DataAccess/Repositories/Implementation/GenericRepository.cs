@@ -12,9 +12,12 @@ namespace MovieManagement.DataAccess.Repositories.Implementation
         {
             _context = context;
         }
-        public void Add(T entity)
+        public T Add(T entity)
         {
-            _context.Set<T>().Add(entity);
+            var result = _context.Set<T>().Add(entity);
+
+            if (result is not null) return result.Entity;
+            return null;
         }
 
         public void AdddRange(IEnumerable<T> entities)
